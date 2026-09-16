@@ -17,12 +17,30 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <Link href="/" className="navbar-brand">
-          <span>IIT MADRAS</span>
-          <strong>ZANZIBAR</strong>
-        </Link>
+    .brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  color: #080a0d;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.brand-top {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  white-space: nowrap;
+}
+
+.brand-bottom {
+  display: block;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
 
         <nav className="navbar-links">
           {links.map((link) => (
