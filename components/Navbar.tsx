@@ -17,31 +17,10 @@ export default function Navbar() {
   ];
 
   return (
-    .brand {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  color: #080a0d;
-  text-decoration: none;
-  line-height: 1;
-}
-
-.brand-top {
-  display: block;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  white-space: nowrap;
-}
-
-.brand-bottom {
-  display: block;
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-}
-
+    <Link href="/" className="brand">
+  <span className="brand-top">IIT MADRAS</span>
+  <span className="brand-bottom">ZANZIBAR</span>
+</Link>
         <nav className="navbar-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
