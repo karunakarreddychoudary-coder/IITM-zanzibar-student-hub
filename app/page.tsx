@@ -1,522 +1,953 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Text } from "@react-three/drei";
-import * as THREE from "three";
+import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
-  Backpack,
   BookOpen,
-  FileText,
-  Map,
+  Compass,
+  GraduationCap,
+  Library,
+  MapPin,
   Users,
 } from "lucide-react";
 
-const sections = [
-  {
-    number: "01",
-    title: "Academics",
-    description: "Courses, notes and papers.",
-    href: "/academics",
-    icon: BookOpen,
-  },
-  {
-    number: "02",
-    title: "Resources",
-    description: "The shared student archive.",
-    href: "/resources",
-    icon: FileText,
-  },
-  {
-    number: "03",
-    title: "Zanzibar",
-    description: "The things worth knowing.",
-    href: "/zanzibar-guide",
-    icon: Map,
-  },
-  {
-    number: "04",
-    title: "Student Life",
-    description: "Everything beyond class.",
-    href: "/student-life",
-    icon: Users,
-  },
-  {
-    number: "05",
-    title: "Preparation",
-    description: "What to bring. What to know.",
-    href: "/things-to-carry",
-    icon: Backpack,
-  },
-];
-
-function FloatingRing({
-  position,
-  scale,
-  speed,
-  rotation,
-}: {
-  position: [number, number, number];
-  scale: number;
-  speed: number;
-  rotation: [number, number, number];
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!ref.current) return;
-
-    const t = state.clock.elapsedTime;
-
-    ref.current.rotation.x = rotation[0] + t * speed * 0.35;
-    ref.current.rotation.y = rotation[1] + t * speed;
-    ref.current.rotation.z = rotation[2] + Math.sin(t * speed) * 0.2;
-
-    ref.current.position.y =
-      position[1] + Math.sin(t * speed) * 0.3;
-  });
-
-  return (
-    <mesh ref={ref} position={position} scale={scale}>
-      <torusGeometry args={[1.35, 0.035, 32, 160]} />
-      <meshStandardMaterial
-        color="#e8e4d9"
-        metalness={0.9}
-        roughness={0.18}
-      />
-    </mesh>
-  );
-}
-
-function FloatingOrb({
-  position,
-  scale,
-  speed,
-}: {
-  position: [number, number, number];
-  scale: number;
-  speed: number;
-}) {
-  return (
-    <Float
-      speed={speed}
-      rotationIntensity={1.2}
-      floatIntensity={1}
-    >
-      <mesh position={position} scale={scale}>
-        <icosahedronGeometry args={[0.45, 1]} />
-        <meshStandardMaterial
-          color="#bcb7aa"
-          metalness={0.85}
-          roughness={0.22}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
-function HeroText() {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!group.current) return;
-
-    const t = state.clock.elapsedTime;
-
-    group.current.rotation.y =
-      Math.sin(t * 0.35) * 0.08;
-
-    group.current.rotation.x =
-      Math.sin(t * 0.22) * 0.025;
-  });
-
-  return (
-    <group ref={group}>
-
-      <Text
-        position={[0, 1.05, 0]}
-        fontSize={0.58}
-        letterSpacing={-0.04}
-        color="#8f8a7c"
-        anchorX="center"
-        anchorY="middle"
-      >
-        IIT MADRAS
-      </Text>
-
-      <Text
-        position={[0, 0.25, 0]}
-        fontSize={0.82}
-        letterSpacing={-0.05}
-        color="#f4f0e6"
-        anchorX="center"
-        anchorY="middle"
-      >
-        ZANZIBAR
-      </Text>
-
-      <Text
-        position={[0, -0.8, 0]}
-        fontSize={0.48}
-        letterSpacing={0.12}
-        color="#777265"
-        anchorX="center"
-        anchorY="middle"
-      >
-        2026
-      </Text>
-
-    </group>
-  );
-}
-
-function CameraMotion() {
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-
-    state.camera.position.z =
-      6.5 - Math.min(t * 0.08, 1.0);
-
-    state.camera.position.x =
-      Math.sin(t * 0.18) * 0.15;
-
-    state.camera.position.y =
-      Math.cos(t * 0.12) * 0.08;
-
-    state.camera.lookAt(0, 0, 0);
-  });
-
-  return null;
-}
-
-function ThreeScene() {
-  return (
-    <Canvas
-      camera={{
-        position: [0, 0, 6.5],
-        fov: 42,
-      }}
-      dpr={[1, 1.5]}
-      gl={{
-        antialias: true,
-        alpha: false,
-      }}
-    >
-      <color attach="background" args={["#05070b"]} />
-
-      <fog
-        attach="fog"
-        args={["#05070b", 5, 12]}
-      />
-
-      <ambientLight intensity={0.35} />
-
-      <directionalLight
-        position={[2, 4, 5]}
-        intensity={2}
-      />
-
-      <pointLight
-        position={[-3, -1, 4]}
-        intensity={20}
-        distance={10}
-        color="#9b978b"
-      />
-
-      <pointLight
-        position={[4, 2, 1]}
-        intensity={12}
-        distance={8}
-        color="#ffffff"
-      />
-
-      <HeroText />
-
-      <FloatingRing
-        position={[-2.25, 1.4, -1.3]}
-        scale={1.35}
-        speed={0.5}
-        rotation={[0.6, 0.3, 0.2]}
-      />
-
-      <FloatingRing
-        position={[2.4, -1.25, -1.8]}
-        scale={0.9}
-        speed={0.7}
-        rotation={[1.1, 0.2, 0.5]}
-      />
-
-      <FloatingRing
-        position={[1.7, 1.75, -2.2]}
-        scale={0.65}
-        speed={1}
-        rotation={[0.4, 0.8, 0.1]}
-      />
-
-      <FloatingOrb
-        position={[-2.7, -1.2, -1]}
-        scale={0.8}
-        speed={1.2}
-      />
-
-      <FloatingOrb
-        position={[2.8, 0.8, -1.4]}
-        scale={0.55}
-        speed={0.8}
-      />
-
-      <FloatingOrb
-        position={[-1.9, 2.15, -2.2]}
-        scale={0.35}
-        speed={1.5}
-      />
-
-      <CameraMotion />
-    </Canvas>
-  );
-}
-
 export default function Home() {
-  const [introDone, setIntroDone] = useState(false);
-  const [skipVisible, setSkipVisible] = useState(false);
+  const [intro, setIntro] = useState(true);
+  const [entered, setEntered] = useState(false);
 
   useEffect(() => {
-    const skip = window.setTimeout(() => {
-      setSkipVisible(true);
-    }, 900);
+    const timer = setTimeout(() => {
+      setIntro(false);
+      setTimeout(() => setEntered(true), 80);
+    }, 6200);
 
-    const done = window.setTimeout(() => {
-      setIntroDone(true);
-    }, 7200);
-
-    return () => {
-      window.clearTimeout(skip);
-      window.clearTimeout(done);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
+  if (intro) {
+    return (
+      <>
+        <main className="intro-screen">
+          {/* Ambient background */}
+          <div className="noise" />
+          <div className="glow glow-one" />
+          <div className="glow glow-two" />
+
+          {/* Grid floor */}
+          <div className="grid-floor" />
+
+          {/* Central 3D object */}
+          <div className="scene">
+            <div className="orbit orbit-one" />
+            <div className="orbit orbit-two" />
+            <div className="orbit orbit-three" />
+
+            <div className="core">
+              <div className="core-inner" />
+              <div className="core-highlight" />
+            </div>
+
+            <div className="satellite satellite-one" />
+            <div className="satellite satellite-two" />
+            <div className="satellite satellite-three" />
+          </div>
+
+          {/* Top label */}
+          <div className="intro-top">
+            <span>IIT MADRAS</span>
+            <span>ZANZIBAR</span>
+          </div>
+
+          {/* Main title */}
+          <section className="intro-copy">
+            <p className="eyebrow">OFFICIAL STUDENT COMMUNITY</p>
+
+            <h1>
+              <span>IIT</span>
+              <span>MADRAS</span>
+              <span>ZANZIBAR</span>
+            </h1>
+
+            <div className="year">
+              <span>20</span>
+              <strong>26</strong>
+            </div>
+          </section>
+
+          {/* Bottom */}
+          <div className="intro-bottom">
+            <div className="line" />
+            <p>WELCOME, FRESHERS</p>
+            <div className="line" />
+          </div>
+
+          <button
+            className="skip"
+            onClick={() => {
+              setIntro(false);
+              setTimeout(() => setEntered(true), 80);
+            }}
+          >
+            ENTER →
+          </button>
+        </main>
+      </>
+    );
+  }
+
   return (
-    <main className="overflow-x-hidden bg-[#f3f0e9] text-[#090c12]">
+    <main
+      className={`home-page ${
+        entered ? "home-page-visible" : ""
+      }`}
+    >
+      <section className="hero">
+        <div className="hero-orb" />
+        <div className="hero-glow" />
 
-      {/* 3D INTRO */}
+        <div className="hero-content">
+          <p className="hero-kicker">IIT MADRAS ZANZIBAR · 2026</p>
 
-      {!introDone && (
-        <div className="fixed inset-0 z-[999] bg-[#05070b]">
+          <h2>
+            YOUR FIRST
+            <br />
+            YEAR STARTS
+            <br />
+            <span>HERE.</span>
+          </h2>
 
-          <div className="absolute inset-0">
-            <ThreeScene />
+          <p className="hero-description">
+            A student-built space for academics, resources, campus life,
+            Zanzibar guides and everything you need to navigate IIT Madras
+            Zanzibar.
+          </p>
+
+          <div className="hero-actions">
+            <a href="/academics" className="primary-button">
+              Explore academics
+              <ArrowUpRight size={17} />
+            </a>
+
+            <a href="/resources" className="secondary-button">
+              Student resources
+            </a>
           </div>
-
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(5,7,11,0.2)_55%,rgba(5,7,11,0.88)_100%)]" />
-
-          <div className="absolute left-6 right-6 top-6 z-10 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.3em] text-white/35 md:left-10 md:right-10">
-
-            <span>
-              IIT MADRAS
-            </span>
-
-            <span>
-              ZANZIBAR · 2026
-            </span>
-
-          </div>
-
-          <div className="absolute bottom-12 left-6 right-6 z-10 flex items-end justify-between md:left-10 md:right-10">
-
-            <div>
-
-              <p className="text-[10px] uppercase tracking-[0.3em] text-white/35">
-                Welcome
-              </p>
-
-              <p className="mt-2 text-xl font-medium tracking-tight text-white md:text-3xl">
-                2026 Freshers.
-              </p>
-
-            </div>
-
-            <div className="text-right text-[10px] uppercase tracking-[0.25em] text-white/25">
-              Entering
-            </div>
-
-          </div>
-
-          {skipVisible && (
-            <button
-              onClick={() => setIntroDone(true)}
-              className="absolute bottom-20 right-6 z-20 text-[10px] uppercase tracking-[0.25em] text-white/25 transition hover:text-white md:right-10"
-            >
-              Skip
-            </button>
-          )}
-
-          <div className="absolute bottom-0 left-0 h-px w-full bg-white/10">
-            <div className="h-full w-0 animate-[loading_7.1s_linear_forwards] bg-white/70" />
-          </div>
-
-          <style jsx>{`
-            @keyframes loading {
-              from {
-                width: 0%;
-              }
-              to {
-                width: 100%;
-              }
-            }
-          `}</style>
-
         </div>
-      )}
 
-      {/* MAIN WEBSITE */}
+        <div className="hero-side-text">
+          <span>06°10′S</span>
+          <span>39°12′E</span>
+        </div>
+      </section>
 
-      <div
-        className={
-          introDone
-            ? "opacity-100 transition-opacity duration-1000"
-            : "pointer-events-none h-screen overflow-hidden opacity-0"
+      <section className="feature-section">
+        <div className="section-heading">
+          <p>THE HUB</p>
+          <h3>Everything in one place.</h3>
+        </div>
+
+        <div className="feature-grid">
+          <FeatureCard
+            icon={<GraduationCap size={22} />}
+            title="Academics"
+            description="Courses, schedules and academic information."
+            href="/academics"
+          />
+
+          <FeatureCard
+            icon={<Library size={22} />}
+            title="Resources"
+            description="Notes, documents and senior-contributed material."
+            href="/resources"
+          />
+
+          <FeatureCard
+            icon={<Compass size={22} />}
+            title="Zanzibar"
+            description="Useful guides for living, moving and exploring."
+            href="/zanzibar-guide"
+          />
+
+          <FeatureCard
+            icon={<Users size={22} />}
+            title="Student Life"
+            description="Discover the community beyond classrooms."
+            href="/student-life"
+          />
+
+          <FeatureCard
+            icon={<MapPin size={22} />}
+            title="Things to Carry"
+            description="A practical checklist before you arrive."
+            href="/things-to-carry"
+          />
+
+          <FeatureCard
+            icon={<BookOpen size={22} />}
+            title="Senior Portal"
+            description="Access and contribute to the growing archive."
+            href="/senior-resources"
+          />
+        </div>
+      </section>
+
+      <style jsx global>{`
+        * {
+          box-sizing: border-box;
         }
-      >
 
-        <section className="min-h-[calc(100vh-5rem)] border-b border-black/10">
+        body {
+          margin: 0;
+          background: #08090b;
+        }
 
-          <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-[1600px] flex-col justify-between px-6 pb-10 pt-12 md:px-10 md:pb-12 md:pt-16 lg:px-14">
+        a {
+          text-decoration: none;
+        }
 
-            <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.28em] text-black/35 md:text-[11px]">
+        /* =========================
+           INTRO
+        ========================= */
 
-              <span>
-                Unofficial Student Archive
-              </span>
+        .intro-screen {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          overflow: hidden;
+          background:
+            radial-gradient(
+              circle at 50% 42%,
+              rgba(198, 216, 204, 0.1),
+              transparent 23%
+            ),
+            radial-gradient(
+              circle at 50% 85%,
+              rgba(198, 216, 204, 0.05),
+              transparent 30%
+            ),
+            #08090b;
+          color: #f5f2ea;
+          perspective: 1400px;
+          animation: introFade 0.8s ease forwards 5.5s;
+        }
 
-              <span>
-                2026
-              </span>
+        .noise {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0.055;
+          background-image:
+            radial-gradient(
+              rgba(255, 255, 255, 0.7) 0.5px,
+              transparent 0.5px
+            );
+          background-size: 4px 4px;
+        }
 
-            </div>
+        .glow {
+          position: absolute;
+          border-radius: 999px;
+          pointer-events: none;
+          filter: blur(70px);
+        }
 
-            <div className="py-20 md:py-24">
+        .glow-one {
+          width: 380px;
+          height: 380px;
+          left: 50%;
+          top: 40%;
+          transform: translate(-50%, -50%);
+          background: rgba(205, 220, 208, 0.1);
+          animation: breathe 4s ease-in-out infinite;
+        }
 
-              <p className="mb-6 font-serif text-2xl italic text-black/45 md:text-3xl">
-                Welcome, freshers.
-              </p>
+        .glow-two {
+          width: 300px;
+          height: 300px;
+          right: -120px;
+          bottom: -80px;
+          background: rgba(184, 203, 190, 0.06);
+        }
 
-              <h1 className="text-[18vw] font-medium leading-[0.72] tracking-[-0.075em] md:text-[14vw] lg:text-[12vw]">
+        .intro-top {
+          position: absolute;
+          top: 38px;
+          left: 44px;
+          right: 44px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 10px;
+          letter-spacing: 0.28em;
+          color: rgba(245, 242, 234, 0.55);
+          z-index: 20;
+        }
 
-                <span className="block">
-                  IIT MADRAS
-                </span>
+        .intro-copy {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          z-index: 10;
+          width: min(900px, 90vw);
+          transform: translate(-50%, -48%);
+          text-align: center;
+        }
 
-                <span className="block pl-[7vw] md:pl-[5vw] lg:pl-[4vw]">
-                  ZANZIBAR
-                </span>
+        .eyebrow {
+          margin: 0 0 28px;
+          font-size: 10px;
+          letter-spacing: 0.4em;
+          color: rgba(245, 242, 234, 0.45);
+          animation: fadeUp 1s ease both;
+        }
 
-              </h1>
+        .intro-copy h1 {
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          font-size: clamp(58px, 10vw, 150px);
+          line-height: 0.82;
+          font-weight: 500;
+          letter-spacing: -0.075em;
+          text-transform: uppercase;
+        }
 
-              <div className="mt-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+        .intro-copy h1 span:nth-child(1) {
+          animation: titleIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s
+            both;
+        }
 
-                <p className="max-w-md text-sm leading-7 text-black/45 md:text-base">
-                  Courses, resources, student life and the
-                  practical knowledge that makes a new place familiar.
-                </p>
+        .intro-copy h1 span:nth-child(2) {
+          animation: titleIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.42s
+            both;
+        }
 
-                <Link
-                  href="/resources"
-                  className="group inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em]"
-                >
-                  Enter the archive
+        .intro-copy h1 span:nth-child(3) {
+          color: transparent;
+          -webkit-text-stroke: 1px rgba(245, 242, 234, 0.65);
+          animation: titleIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.64s
+            both;
+        }
 
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-black/15 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:bg-black group-hover:text-white">
-                    <ArrowUpRight size={18} strokeWidth={1.4} />
-                  </span>
+        .year {
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          gap: 5px;
+          margin-top: 34px;
+          font-size: clamp(24px, 3vw, 42px);
+          letter-spacing: -0.04em;
+          animation: yearIn 1s ease 1.1s both;
+        }
 
-                </Link>
+        .year strong {
+          font-weight: 400;
+          color: #d6e4da;
+        }
 
-              </div>
+        /* 3D object */
 
-            </div>
+        .scene {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 300px;
+          height: 300px;
+          transform-style: preserve-3d;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          animation: sceneSpin 16s linear infinite;
+          opacity: 0.95;
+        }
 
-            <div className="grid border-t border-black/10 pt-5 text-[10px] uppercase tracking-[0.18em] text-black/30 md:grid-cols-3 md:text-[11px]">
+        .orbit {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          border: 1px solid rgba(218, 230, 220, 0.2);
+          border-radius: 50%;
+          transform-style: preserve-3d;
+        }
 
-              <div>IIT Madras Zanzibar</div>
+        .orbit-one {
+          width: 270px;
+          height: 90px;
+          transform: translate(-50%, -50%) rotateX(68deg) rotateZ(15deg);
+        }
 
-              <div className="mt-2 md:mt-0 md:text-center">
-                Student maintained
-              </div>
+        .orbit-two {
+          width: 285px;
+          height: 110px;
+          transform: translate(-50%, -50%) rotateY(67deg) rotateZ(-22deg);
+        }
 
-              <div className="mt-2 md:mt-0 md:text-right">
-                Batch 2026
-              </div>
+        .orbit-three {
+          width: 250px;
+          height: 250px;
+          border-color: rgba(218, 230, 220, 0.08);
+          transform: translate(-50%, -50%) rotateX(62deg)
+            rotateY(35deg);
+        }
 
-            </div>
+        .core {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 92px;
+          height: 92px;
+          transform-style: preserve-3d;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          background:
+            radial-gradient(
+              circle at 35% 25%,
+              rgba(255, 255, 255, 0.48),
+              transparent 8%
+            ),
+            radial-gradient(
+              circle,
+              rgba(209, 227, 216, 0.28),
+              rgba(209, 227, 216, 0.03) 60%,
+              transparent 72%
+            );
+          box-shadow:
+            0 0 50px rgba(213, 229, 218, 0.12),
+            inset -15px -18px 30px rgba(0, 0, 0, 0.32);
+          animation: coreFloat 3.5s ease-in-out infinite;
+        }
 
-          </div>
+        .core-inner {
+          position: absolute;
+          inset: 10px;
+          border-radius: 50%;
+          border: 1px solid rgba(242, 247, 243, 0.35);
+        }
 
-        </section>
+        .core-highlight {
+          position: absolute;
+          width: 15px;
+          height: 15px;
+          top: 16px;
+          left: 22px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.7);
+          filter: blur(4px);
+        }
 
-        <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-10 md:py-28 lg:px-14">
+        .satellite {
+          position: absolute;
+          width: 13px;
+          height: 13px;
+          border: 1px solid rgba(231, 240, 233, 0.5);
+          background: rgba(231, 240, 233, 0.1);
+          transform-style: preserve-3d;
+        }
 
-          <div className="mb-12 flex items-end justify-between border-b border-black/10 pb-5">
+        .satellite-one {
+          top: 22px;
+          left: 144px;
+          transform: rotate(45deg);
+          animation: satelliteOne 5s linear infinite;
+        }
 
-            <div>
+        .satellite-two {
+          bottom: 48px;
+          left: 28px;
+          transform: rotate(12deg);
+          animation: satelliteTwo 6s linear infinite;
+        }
 
-              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-black/35">
-                Navigate
-              </p>
+        .satellite-three {
+          right: 24px;
+          bottom: 80px;
+          transform: rotate(70deg);
+          animation: satelliteThree 7s linear infinite;
+        }
 
-              <h2 className="mt-3 font-serif text-5xl font-medium tracking-[-0.04em] md:text-6xl">
-                The archive.
-              </h2>
+        .grid-floor {
+          position: absolute;
+          left: -15%;
+          right: -15%;
+          bottom: -39%;
+          height: 64%;
+          opacity: 0.22;
+          transform: perspective(500px) rotateX(65deg);
+          transform-origin: bottom;
+          background-image:
+            linear-gradient(
+              rgba(220, 231, 224, 0.1) 1px,
+              transparent 1px
+            ),
+            linear-gradient(
+              90deg,
+              rgba(220, 231, 224, 0.1) 1px,
+              transparent 1px
+            );
+          background-size: 55px 55px;
+          mask-image: linear-gradient(
+            to top,
+            black,
+            transparent 90%
+          );
+        }
 
-            </div>
+        .intro-bottom {
+          position: absolute;
+          bottom: 42px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          align-items: center;
+          width: min(700px, 78vw);
+          gap: 18px;
+          color: rgba(245, 242, 234, 0.42);
+          font-size: 9px;
+          letter-spacing: 0.36em;
+        }
 
-            <div className="hidden text-xs text-black/30 md:block">
-              05 sections
-            </div>
+        .intro-bottom .line {
+          flex: 1;
+          height: 1px;
+          background: rgba(245, 242, 234, 0.12);
+        }
 
-          </div>
+        .intro-bottom p {
+          margin: 0;
+          white-space: nowrap;
+        }
 
-          <div className="border-t border-black/10">
+        .skip {
+          position: absolute;
+          right: 42px;
+          bottom: 38px;
+          z-index: 30;
+          border: 1px solid rgba(245, 242, 234, 0.18);
+          background: rgba(255, 255, 255, 0.025);
+          backdrop-filter: blur(10px);
+          color: rgba(245, 242, 234, 0.68);
+          padding: 11px 16px;
+          font-size: 9px;
+          letter-spacing: 0.18em;
+          cursor: pointer;
+          transition: all 0.25s ease;
+        }
 
-            {sections.map((section) => {
-              const Icon = section.icon;
+        .skip:hover {
+          border-color: rgba(245, 242, 234, 0.4);
+          color: white;
+          transform: translateY(-2px);
+        }
 
-              return (
-                <Link
-                  key={section.number}
-                  href={section.href}
-                  className="group grid items-center border-b border-black/10 py-8 transition-colors hover:bg-white md:grid-cols-[90px_1fr_1fr_auto] md:gap-8 md:py-10"
-                >
+        /* =========================
+           HOME
+        ========================= */
 
-                  <span className="text-[11px] font-semibold tracking-[0.22em] text-black/25">
-                    {section.number}
-                  </span>
+        .home-page {
+          min-height: 100vh;
+          background: #f5f2ea;
+          color: #0b0d0f;
+          opacity: 0;
+          transform: translateY(18px);
+          transition:
+            opacity 1s ease,
+            transform 1s ease;
+        }
 
-                  <h3 className="mt-4 font-serif text-4xl font-medium tracking-[-0.04em] md:mt-0 md:text-6xl">
-                    {section.title}
-                  </h3>
+        .home-page-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
 
-                  <p className="mt-3 text-sm text-black/40 md:mt-0 md:text-base">
-                    {section.description}
-                  </p>
+        .hero {
+          min-height: 92vh;
+          position: relative;
+          overflow: hidden;
+          padding: 150px 7vw 100px;
+          display: flex;
+          align-items: center;
+        }
 
-                  <Icon
-                    size={20}
-                    strokeWidth={1.4}
-                    className="mt-5 text-black/25 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 md:mt-0"
-                  />
+        .hero-content {
+          max-width: 930px;
+          position: relative;
+          z-index: 3;
+        }
 
-                </Link>
-              );
-            })}
+        .hero-kicker {
+          margin: 0 0 28px;
+          font-size: 10px;
+          letter-spacing: 0.32em;
+          color: rgba(11, 13, 15, 0.46);
+        }
 
-          </div>
+        .hero h2 {
+          margin: 0;
+          font-size: clamp(62px, 9.3vw, 145px);
+          line-height: 0.86;
+          letter-spacing: -0.085em;
+          font-weight: 500;
+        }
 
-        </section>
+        .hero h2 span {
+          color: transparent;
+          -webkit-text-stroke: 1.5px #0b0d0f;
+        }
 
-      </div>
+        .hero-description {
+          max-width: 500px;
+          margin: 42px 0 0;
+          color: rgba(11, 13, 15, 0.56);
+          font-size: 16px;
+          line-height: 1.7;
+        }
 
+        .hero-actions {
+          display: flex;
+          gap: 12px;
+          margin-top: 34px;
+          flex-wrap: wrap;
+        }
+
+        .primary-button,
+        .secondary-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 15px 20px;
+          font-size: 12px;
+          transition:
+            transform 0.25s ease,
+            background 0.25s ease;
+        }
+
+        .primary-button {
+          background: #0b0d0f;
+          color: white;
+        }
+
+        .secondary-button {
+          border: 1px solid rgba(11, 13, 15, 0.15);
+          color: #0b0d0f;
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+          transform: translateY(-3px);
+        }
+
+        .hero-side-text {
+          position: absolute;
+          right: 5vw;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          font-size: 9px;
+          letter-spacing: 0.2em;
+          color: rgba(11, 13, 15, 0.34);
+        }
+
+        .hero-orb {
+          position: absolute;
+          width: 580px;
+          height: 580px;
+          right: -120px;
+          top: 50%;
+          transform: translateY(-50%);
+          border-radius: 50%;
+          border: 1px solid rgba(11, 13, 15, 0.08);
+          box-shadow:
+            0 0 0 75px rgba(11, 13, 15, 0.025),
+            0 0 0 150px rgba(11, 13, 15, 0.018);
+        }
+
+        .hero-glow {
+          position: absolute;
+          width: 420px;
+          height: 420px;
+          right: -60px;
+          top: 50%;
+          transform: translateY(-50%);
+          border-radius: 50%;
+          background: radial-gradient(
+            circle,
+            rgba(205, 220, 208, 0.7),
+            transparent 70%
+          );
+          filter: blur(15px);
+        }
+
+        .feature-section {
+          padding: 110px 7vw 140px;
+          background: #0b0d0f;
+          color: #f5f2ea;
+        }
+
+        .section-heading p {
+          margin: 0 0 14px;
+          font-size: 9px;
+          letter-spacing: 0.34em;
+          color: rgba(245, 242, 234, 0.4);
+        }
+
+        .section-heading h3 {
+          margin: 0;
+          max-width: 650px;
+          font-size: clamp(38px, 6vw, 78px);
+          line-height: 0.95;
+          font-weight: 400;
+          letter-spacing: -0.065em;
+        }
+
+        .feature-grid {
+          margin-top: 70px;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          border-top: 1px solid rgba(245, 242, 234, 0.12);
+          border-left: 1px solid rgba(245, 242, 234, 0.12);
+        }
+
+        .feature-card {
+          min-height: 260px;
+          padding: 32px;
+          border-right: 1px solid rgba(245, 242, 234, 0.12);
+          border-bottom: 1px solid rgba(245, 242, 234, 0.12);
+          transition: background 0.3s ease;
+        }
+
+        .feature-card:hover {
+          background: rgba(245, 242, 234, 0.035);
+        }
+
+        .feature-icon {
+          width: 38px;
+          height: 38px;
+          display: grid;
+          place-items: center;
+          border: 1px solid rgba(245, 242, 234, 0.15);
+        }
+
+        .feature-card h4 {
+          margin: 48px 0 12px;
+          font-size: 25px;
+          font-weight: 400;
+          letter-spacing: -0.04em;
+        }
+
+        .feature-card p {
+          margin: 0;
+          max-width: 260px;
+          color: rgba(245, 242, 234, 0.48);
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .feature-link {
+          display: inline-flex;
+          margin-top: 28px;
+          color: rgba(245, 242, 234, 0.65);
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        @keyframes titleIn {
+          from {
+            opacity: 0;
+            transform: translateY(80px) rotateX(45deg);
+            filter: blur(14px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+            filter: blur(0);
+          }
+        }
+
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(18px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes yearIn {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes sceneSpin {
+          from {
+            transform: translate(-50%, -50%) rotateZ(0deg)
+              rotateY(0deg);
+          }
+
+          to {
+            transform: translate(-50%, -50%) rotateZ(360deg)
+              rotateY(360deg);
+          }
+        }
+
+        @keyframes coreFloat {
+          0%,
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+          }
+
+          50% {
+            transform: translate(-50%, -50%) scale(1.08);
+          }
+        }
+
+        @keyframes satelliteOne {
+          0% {
+            transform: translate3d(0, 0, 0) rotate(45deg);
+          }
+
+          50% {
+            transform: translate3d(15px, -12px, 28px)
+              rotate(130deg);
+          }
+
+          100% {
+            transform: translate3d(0, 0, 0) rotate(405deg);
+          }
+        }
+
+        @keyframes satelliteTwo {
+          0% {
+            transform: translate3d(0, 0, 0) rotate(12deg);
+          }
+
+          50% {
+            transform: translate3d(-20px, 10px, 20px)
+              rotate(140deg);
+          }
+
+          100% {
+            transform: translate3d(0, 0, 0) rotate(372deg);
+          }
+        }
+
+        @keyframes satelliteThree {
+          0% {
+            transform: translate3d(0, 0, 0) rotate(70deg);
+          }
+
+          50% {
+            transform: translate3d(12px, -18px, 25px)
+              rotate(180deg);
+          }
+
+          100% {
+            transform: translate3d(0, 0, 0) rotate(430deg);
+          }
+        }
+
+        @keyframes breathe {
+          0%,
+          100% {
+            opacity: 0.55;
+            transform: translate(-50%, -50%) scale(0.95);
+          }
+
+          50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.08);
+          }
+        }
+
+        @keyframes introFade {
+          to {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
+
+        @media (max-width: 800px) {
+          .intro-top {
+            left: 20px;
+            right: 20px;
+          }
+
+          .intro-bottom {
+            bottom: 25px;
+          }
+
+          .skip {
+            right: 20px;
+            bottom: 72px;
+          }
+
+          .scene {
+            transform: translate(-50%, -50%) scale(0.72);
+          }
+
+          .feature-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .hero {
+            padding: 130px 22px 80px;
+          }
+
+          .hero-side-text {
+            display: none;
+          }
+
+          .hero-orb {
+            right: -250px;
+            opacity: 0.55;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+          }
+        }
+      `}</style>
     </main>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+  href,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  href: string;
+}) {
+  return (
+    <a href={href} className="feature-card">
+      <div className="feature-icon">{icon}</div>
+
+      <h4>{title}</h4>
+
+      <p>{description}</p>
+
+      <span className="feature-link">Open →</span>
+    </a>
   );
 }
