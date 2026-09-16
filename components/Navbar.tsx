@@ -4,110 +4,214 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
-const links = [
-  { label: "Home", href: "/" },
-  { label: "Academics", href: "/academics" },
-  { label: "Resources", href: "/resources" },
-  { label: "Things to Carry", href: "/things-to-carry" },
-  { label: "Zanzibar", href: "/zanzibar-guide" },
-  { label: "Student Life", href: "/student-life" },
-];
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  function closeMenu() {
-    setOpen(false);
-  }
+  const links = [
+    { name: "Home", href: "/" },
+    { name: "Academics", href: "/academics" },
+    { name: "Resources", href: "/resources" },
+    { name: "Things to Carry", href: "/things-to-carry" },
+    { name: "Zanzibar", href: "/zanzibar-guide" },
+    { name: "Student Life", href: "/student-life" },
+  ];
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-black/10 bg-[#f7f5f0]/90 backdrop-blur-xl">
-
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-
-        {/* Logo */}
-        <Link
-          href="/"
-          className="shrink-0"
-          onClick={closeMenu}
-        >
-          <div className="text-[11px] font-semibold tracking-[0.22em] text-black/50">
-            IIT MADRAS
-          </div>
-
-          <div className="text-lg font-semibold tracking-tight">
-            ZANZIBAR
-          </div>
+    <header className="navbar">
+      <div className="navbar-inner">
+        <Link href="/" className="navbar-brand">
+          <span>IIT MADRAS</span>
+          <strong>ZANZIBAR</strong>
         </Link>
 
-        {/* Desktop navigation */}
-        <div className="hidden items-center gap-7 text-sm md:flex">
+        <nav className="navbar-links">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+
+        <Link href="/login" className="senior-button">
+          <span>Senior Portal</span>
+          <ArrowUpRight size={16} />
+        </Link>
+
+        <button
+          className="mobile-menu-button"
+          onClick={() => setOpen(!open)}
+          aria-label="Open menu"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="mobile-menu">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="transition-opacity hover:opacity-50"
+              onClick={() => setOpen(false)}
             >
-              {link.label}
+              {link.name}
             </Link>
           ))}
-        </div>
 
-        {/* Desktop portal */}
-        <Link
-          href="/login"
-          className="hidden items-center gap-2 rounded-full bg-[#0b1220] px-5 py-2.5 text-sm font-medium text-white transition-transform hover:-translate-y-0.5 md:flex"
-        >
-          Senior Portal
-          <ArrowUpRight size={15} />
-        </Link>
-
-        {/* Mobile button */}
-        <button
-          onClick={() => setOpen((current) => !current)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white md:hidden"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
-
-      </div>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="border-t border-black/10 bg-[#f7f5f0] md:hidden">
-
-          <div className="mx-auto max-w-7xl px-6 py-5">
-
-            <div className="space-y-1">
-
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className="block rounded-xl px-4 py-3.5 text-sm font-medium transition hover:bg-black/5"
-                >
-                  {link.label}
-                </Link>
-              ))}
-
-              <Link
-                href="/login"
-                onClick={closeMenu}
-                className="mt-3 flex items-center justify-between rounded-xl bg-[#0b1220] px-4 py-3.5 text-sm font-medium text-white"
-              >
-                Senior Portal
-                <ArrowUpRight size={16} />
-              </Link>
-
-            </div>
-
-          </div>
-
+          <Link
+            href="/login"
+            onClick={() => setOpen(false)}
+            className="mobile-senior"
+          >
+            Senior Portal
+            <ArrowUpRight size={16} />
+          </Link>
         </div>
       )}
 
-    </nav>
+      <style jsx>{`
+        .navbar {
+          position: relative;
+          z-index: 1000;
+          width: 100%;
+          background: #f7f5ef;
+          border-bottom: 1px solid rgba(8, 10, 13, 0.1);
+        }
+
+        .navbar-inner {
+          height: 104px;
+          padding: 0 6vw;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .navbar-brand {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          color: #080a0d;
+        }
+
+        .navbar-brand span {
+          font-size: 10px;
+          letter-spacing: 0.28em;
+          color: rgba(8, 10, 13, 0.5);
+        }
+
+        .navbar-brand strong {
+          font-size: 19px;
+          font-weight: 500;
+          letter-spacing: -0.03em;
+        }
+
+        .navbar-links {
+          display: flex;
+          align-items: center;
+          gap: 31px;
+          margin-left: auto;
+          margin-right: 35px;
+        }
+
+        .navbar-links a {
+          color: #080a0d;
+          font-size: 14px;
+          transition: opacity 0.2s ease;
+        }
+
+        .navbar-links a:hover {
+          opacity: 0.55;
+        }
+
+        .senior-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+
+          padding: 14px 20px;
+
+          border: 1px solid #080a0d;
+
+          background: #080a0d;
+          color: #ffffff;
+
+          border-radius: 999px;
+
+          font-size: 13px;
+          font-weight: 500;
+
+          transition:
+            background 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+        }
+
+        .senior-button:hover {
+          background: transparent;
+          color: #080a0d;
+          transform: translateY(-2px);
+        }
+
+        .mobile-menu-button {
+          display: none;
+          background: transparent;
+          border: 0;
+          color: #080a0d;
+        }
+
+        .mobile-menu {
+          display: none;
+        }
+
+        @media (max-width: 1000px) {
+          .navbar-links {
+            gap: 18px;
+            margin-right: 18px;
+          }
+
+          .navbar-links a {
+            font-size: 12px;
+          }
+        }
+
+        @media (max-width: 800px) {
+          .navbar-inner {
+            height: 82px;
+            padding: 0 22px;
+          }
+
+          .navbar-links,
+          .senior-button {
+            display: none;
+          }
+
+          .mobile-menu-button {
+            display: block;
+          }
+
+          .mobile-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding: 10px 22px 24px;
+            background: #f7f5ef;
+            border-top: 1px solid rgba(8, 10, 13, 0.08);
+          }
+
+          .mobile-menu a {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(8, 10, 13, 0.08);
+            color: #080a0d;
+            font-size: 14px;
+          }
+
+          .mobile-senior {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+      `}</style>
+    </header>
   );
 }
