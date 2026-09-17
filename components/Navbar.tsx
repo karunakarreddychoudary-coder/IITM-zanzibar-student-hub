@@ -59,18 +59,19 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-
-          <Link
+<Link
             href="/login"
-            className="mobile-senior"
             onClick={() => setOpen(false)}
+            className="mobile-senior"
           >
             Senior Portal
             <ArrowUpRight size={16} />
           </Link>
         </div>
       )}
-
+          
+          
+      
       <style jsx>{`
         .navbar {
           position: relative;
