@@ -214,7 +214,7 @@ export default function Navbar() {
   display: inline-flex !important;
   position: absolute !important;
 
-  left: 62% !important;
+  left: 50% !important;
   right: auto !important;
   top: 50% !important;
 
@@ -225,15 +225,14 @@ export default function Navbar() {
   padding: 0 !important;
   margin: 0 !important;
 
-  border: 0 !important;
-  border-radius: 0 !important;
+  border: none !important;
   background: transparent !important;
   color: #080a0d !important;
 
   font-size: 11px !important;
   font-weight: 400 !important;
   white-space: nowrap !important;
-  z-index: 20 !important;
+  z-index: 50 !important;
 }
           .navbar-links {
             display: none !important;
