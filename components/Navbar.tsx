@@ -21,16 +21,16 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar-inner">
 
-        {/* MOBILE MENU - FAR LEFT */}
+        {/* MENU — FAR LEFT */}
         <button
           className="mobile-menu-button"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
-          {open ? <X size={25} /> : <Menu size={25} />}
+          {open ? <X size={26} /> : <Menu size={26} />}
         </button>
 
-        {/* LOGO */}
+        {/* LOGO — SLIGHTLY LEFT */}
         <Link href="/" className="navbar-brand">
           <span className="brand-top">IIT MADRAS</span>
           <strong className="brand-bottom">ZANZIBAR</strong>
@@ -47,12 +47,12 @@ export default function Navbar() {
 
         {/* SENIOR PORTAL */}
         <Link href="/login" className="senior-button">
-          Senior Portal
+          <span>Senior Portal</span>
           <ArrowUpRight size={16} />
         </Link>
       </div>
 
-      {/* MOBILE MENU DROPDOWN */}
+      {/* MOBILE MENU */}
       {open && (
         <div className="mobile-menu">
           {links.map((link) => (
@@ -103,6 +103,7 @@ export default function Navbar() {
           color: #080a0d;
           text-decoration: none;
           white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .brand-top {
@@ -134,14 +135,13 @@ export default function Navbar() {
           color: #080a0d;
           font-size: 14px;
           text-decoration: none;
-          transition: opacity 0.2s ease;
         }
 
         .navbar-links a:hover {
           opacity: 0.55;
         }
 
-        /* SENIOR BUTTON */
+        /* SENIOR PORTAL */
         .senior-button {
           display: inline-flex;
           align-items: center;
@@ -154,6 +154,8 @@ export default function Navbar() {
           font-size: 13px;
           font-weight: 500;
           text-decoration: none;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .senior-button:hover {
@@ -191,15 +193,14 @@ export default function Navbar() {
           .navbar-inner {
             min-height: 132px;
             padding: 0 24px;
-            justify-content: center;
+            display: block;
           }
 
-          /* FORCE MENU TO FAR LEFT */
+          /* MENU AT FAR LEFT */
           .mobile-menu-button {
             display: flex !important;
-            position: absolute !important;
-            left: 24px !important;
-            right: auto !important;
+            position: absolute;
+            left: 24px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 20;
@@ -207,10 +208,13 @@ export default function Navbar() {
             justify-content: center;
           }
 
-          /* LOGO */
+          /* LOGO SLIGHTLY LEFT OF CENTER */
           .navbar-brand {
+            position: absolute;
+            left: 108px;
+            top: 50%;
+            transform: translateY(-50%);
             gap: 12px;
-            align-items: flex-start;
           }
 
           .brand-top {
@@ -222,9 +226,30 @@ export default function Navbar() {
             font-size: 21px;
           }
 
-          /* HIDE DESKTOP SENIOR PORTAL AND LINKS */
-          .navbar-links,
+          /* SENIOR PORTAL ON RIGHT WITH SPACE */
           .senior-button {
+            display: inline-flex !important;
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0;
+            gap: 5px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: #080a0d;
+            font-size: 14px;
+            font-weight: 400;
+          }
+
+          .senior-button:hover {
+            background: transparent;
+            color: #080a0d;
+            transform: translateY(-50%);
+          }
+
+          .navbar-links {
             display: none !important;
           }
 
@@ -250,6 +275,36 @@ export default function Navbar() {
 
           .mobile-senior {
             font-weight: 500;
+          }
+        }
+
+        /* SMALL PHONES */
+        @media (max-width: 520px) {
+          .navbar-inner {
+            min-height: 118px;
+          }
+
+          .mobile-menu-button {
+            left: 18px;
+          }
+
+          .navbar-brand {
+            left: 76px;
+          }
+
+          .brand-top {
+            font-size: 7px;
+            letter-spacing: 0.12em;
+          }
+
+          .brand-bottom {
+            font-size: 17px;
+          }
+
+          .senior-button {
+            right: 18px;
+            font-size: 11px;
+            gap: 3px;
           }
         }
       `}</style>
