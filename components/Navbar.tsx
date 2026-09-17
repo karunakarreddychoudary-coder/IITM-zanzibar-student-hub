@@ -211,22 +211,23 @@ export default function Navbar() {
           }
 
           .senior-button {
-            display: inline-flex !important;
-            position: static !important;
-            grid-column: 3 !important;
-            grid-row: 1 !important;
-            justify-self: end !important;
-            align-items: center !important;
-            gap: 4px !important;
-            padding: 0 18px 0 0 !important;
-            border: 0 !important;
-            border-radius: 0 !important;
-            background: transparent !important;
-            color: #080a0d !important;
-            font-size: 12px !important;
-            font-weight: 400 !important;
-            transform: none !important;
-          }
+  display: inline-flex !important;
+  position: static !important;
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  justify-self: end !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 0 !important;
+  margin-right: 22px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #080a0d !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  transform: translateX(-18px) !important;
+}
 
           .navbar-links {
             display: none !important;
