@@ -130,19 +130,35 @@ export default function Navbar() {
           text-decoration: none;
         }
 
-        .senior-button {
-          display: inline-flex;
-          align-items: center;
-          gap: 9px;
-          padding: 14px 20px;
-          border: 1px solid #080a0d;
-          border-radius: 999px;
-          background: #080a0d;
-          color: white;
-          font-size: 13px;
-          text-decoration: none;
-          white-space: nowrap;
-        }
+        /* SENIOR PORTAL — MOBILE FIX */
+.senior-button {
+  display: inline-flex !important;
+  position: absolute !important;
+  right: 32px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+
+  align-items: center !important;
+  gap: 3px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #080a0d !important;
+
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  white-space: nowrap !important;
+  z-index: 30 !important;
+}
+
+.senior-button:hover {
+  background: transparent !important;
+  color: #080a0d !important;
+  transform: translateY(-50%) !important;
+}
 
         .mobile-menu-button {
           display: none;
