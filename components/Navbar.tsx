@@ -136,16 +136,26 @@ export default function Navbar() {
           gap: 9px;
           padding: 14px 20px;
           border: 1px solid #080a0d;
-          border-radius: 999px;
           background: #080a0d;
-          color: white;
+          color: #ffffff;
+          border-radius: 999px;
           font-size: 13px;
-          text-decoration: none;
-          white-space: nowrap;
+          font-weight: 500;
+          transition: all 0.2s ease;
+        }
+
+        .senior-button:hover {
+          background: transparent;
+          color: #080a0d;
+          transform: translateY(-2px);
         }
 
         .mobile-menu-button {
           display: none;
+          background: transparent;
+          border: 0;
+          color: #080a0d;
+          padding: 4px;
         }
 
         .mobile-menu {
