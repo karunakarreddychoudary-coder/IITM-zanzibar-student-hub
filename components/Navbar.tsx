@@ -21,11 +21,11 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar-inner">
 
-        {/* MENU BUTTON — LEFT ON MOBILE */}
+        {/* MOBILE MENU - FAR LEFT */}
         <button
           className="mobile-menu-button"
           onClick={() => setOpen(!open)}
-          aria-label="Toggle navigation menu"
+          aria-label="Toggle menu"
         >
           {open ? <X size={25} /> : <Menu size={25} />}
         </button>
@@ -36,7 +36,7 @@ export default function Navbar() {
           <strong className="brand-bottom">ZANZIBAR</strong>
         </Link>
 
-        {/* DESKTOP NAVIGATION */}
+        {/* DESKTOP LINKS */}
         <nav className="navbar-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
@@ -45,14 +45,14 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* SENIOR PORTAL — DESKTOP ONLY */}
+        {/* SENIOR PORTAL */}
         <Link href="/login" className="senior-button">
-          <span>Senior Portal</span>
+          Senior Portal
           <ArrowUpRight size={16} />
         </Link>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU DROPDOWN */}
       {open && (
         <div className="mobile-menu">
           {links.map((link) => (
@@ -86,6 +86,7 @@ export default function Navbar() {
         }
 
         .navbar-inner {
+          position: relative;
           min-height: 104px;
           padding: 0 6vw;
           display: flex;
@@ -93,13 +94,12 @@ export default function Navbar() {
           justify-content: space-between;
         }
 
-        /* LOGO WITH CLEAR GAP */
+        /* LOGO */
         .navbar-brand {
-          display: flex !important;
-          flex-direction: column !important;
+          display: flex;
+          flex-direction: column;
           align-items: flex-start;
-          justify-content: center;
-          gap: 10px;
+          gap: 11px;
           color: #080a0d;
           text-decoration: none;
           white-space: nowrap;
@@ -121,6 +121,7 @@ export default function Navbar() {
           letter-spacing: -0.04em;
         }
 
+        /* DESKTOP NAVIGATION */
         .navbar-links {
           display: flex;
           align-items: center;
@@ -140,15 +141,16 @@ export default function Navbar() {
           opacity: 0.55;
         }
 
+        /* SENIOR BUTTON */
         .senior-button {
           display: inline-flex;
           align-items: center;
           gap: 9px;
           padding: 14px 20px;
           border: 1px solid #080a0d;
+          border-radius: 999px;
           background: #080a0d;
           color: white;
-          border-radius: 999px;
           font-size: 13px;
           font-weight: 500;
           text-decoration: none;
@@ -159,7 +161,7 @@ export default function Navbar() {
           color: #080a0d;
         }
 
-        /* HIDDEN ON DESKTOP */
+        /* MOBILE MENU BUTTON */
         .mobile-menu-button {
           display: none;
           border: 0;
@@ -172,6 +174,7 @@ export default function Navbar() {
           display: none;
         }
 
+        /* TABLET */
         @media (max-width: 1000px) {
           .navbar-links {
             gap: 18px;
@@ -183,39 +186,43 @@ export default function Navbar() {
           }
         }
 
+        /* MOBILE */
         @media (max-width: 800px) {
           .navbar-inner {
             min-height: 132px;
             padding: 0 24px;
-            justify-content: flex-start;
-            gap: 22px;
+            justify-content: center;
           }
 
-          /* MENU FIXED ON LEFT */
+          /* FORCE MENU TO FAR LEFT */
           .mobile-menu-button {
             display: flex !important;
+            position: absolute !important;
+            left: 24px !important;
+            right: auto !important;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            order: 1;
           }
 
-          /* LOGO AFTER MENU */
+          /* LOGO */
           .navbar-brand {
-            order: 2;
-            gap: 11px;
+            gap: 12px;
+            align-items: flex-start;
           }
 
           .brand-top {
             font-size: 9px;
-            letter-spacing: 0.22em;
+            letter-spacing: 0.2em;
           }
 
           .brand-bottom {
-            font-size: 20px;
+            font-size: 21px;
           }
 
-          /* HIDE DESKTOP ITEMS */
+          /* HIDE DESKTOP SENIOR PORTAL AND LINKS */
           .navbar-links,
           .senior-button {
             display: none !important;
