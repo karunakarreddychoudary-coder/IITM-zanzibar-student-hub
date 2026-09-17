@@ -21,7 +21,6 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar-inner">
 
-        {/* MOBILE MENU - FAR LEFT */}
         <button
           className="mobile-menu-button"
           onClick={() => setOpen(!open)}
@@ -30,13 +29,11 @@ export default function Navbar() {
           {open ? <X size={25} /> : <Menu size={25} />}
         </button>
 
-        {/* LOGO */}
         <Link href="/" className="navbar-brand">
           <span className="brand-top">IIT MADRAS</span>
           <strong className="brand-bottom">ZANZIBAR</strong>
         </Link>
 
-        {/* DESKTOP LINKS */}
         <nav className="navbar-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
@@ -45,14 +42,12 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* SENIOR PORTAL */}
         <Link href="/login" className="senior-button">
-          Senior Portal
+          <span>Senior Portal</span>
           <ArrowUpRight size={16} />
         </Link>
       </div>
 
-      {/* MOBILE MENU DROPDOWN */}
       {open && (
         <div className="mobile-menu">
           {links.map((link) => (
@@ -86,15 +81,14 @@ export default function Navbar() {
         }
 
         .navbar-inner {
-          position: relative;
-          min-height: 104px;
+          height: 104px;
           padding: 0 6vw;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          position: relative;
         }
 
-        /* LOGO */
         .navbar-brand {
           display: flex;
           flex-direction: column;
@@ -103,6 +97,7 @@ export default function Navbar() {
           color: #080a0d;
           text-decoration: none;
           white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .brand-top {
@@ -121,7 +116,6 @@ export default function Navbar() {
           letter-spacing: -0.04em;
         }
 
-        /* DESKTOP NAVIGATION */
         .navbar-links {
           display: flex;
           align-items: center;
@@ -134,14 +128,8 @@ export default function Navbar() {
           color: #080a0d;
           font-size: 14px;
           text-decoration: none;
-          transition: opacity 0.2s ease;
         }
 
-        .navbar-links a:hover {
-          opacity: 0.55;
-        }
-
-        /* SENIOR BUTTON */
         .senior-button {
           display: inline-flex;
           align-items: center;
@@ -152,29 +140,18 @@ export default function Navbar() {
           background: #080a0d;
           color: white;
           font-size: 13px;
-          font-weight: 500;
           text-decoration: none;
+          white-space: nowrap;
         }
 
-        .senior-button:hover {
-          background: transparent;
-          color: #080a0d;
-        }
-
-        /* MOBILE MENU BUTTON */
         .mobile-menu-button {
           display: none;
-          border: 0;
-          padding: 0;
-          background: transparent;
-          color: #080a0d;
         }
 
         .mobile-menu {
           display: none;
         }
 
-        /* TABLET */
         @media (max-width: 1000px) {
           .navbar-links {
             gap: 18px;
@@ -186,55 +163,81 @@ export default function Navbar() {
           }
         }
 
-        /* MOBILE */
         @media (max-width: 800px) {
           .navbar-inner {
-            min-height: 132px;
-            padding: 0 24px;
-            justify-content: center;
+            height: 132px !important;
+            padding: 0 !important;
+            display: grid !important;
+            grid-template-columns: 76px 1fr auto !important;
+            align-items: center !important;
+            column-gap: 10px !important;
           }
 
-          /* FORCE MENU TO FAR LEFT */
           .mobile-menu-button {
             display: flex !important;
-            position: absolute !important;
-            left: 24px !important;
-            right: auto !important;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 20;
-            align-items: center;
-            justify-content: center;
+            position: static !important;
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            justify-self: center !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            color: #080a0d !important;
+            transform: none !important;
           }
 
-          /* LOGO */
           .navbar-brand {
-            gap: 12px;
-            align-items: flex-start;
+            position: static !important;
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            justify-self: start !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin: 0 !important;
+            transform: none !important;
           }
 
           .brand-top {
-            font-size: 9px;
-            letter-spacing: 0.2em;
+            font-size: 8px !important;
+            letter-spacing: 0.15em !important;
           }
 
           .brand-bottom {
-            font-size: 21px;
+            font-size: 20px !important;
           }
 
-          /* HIDE DESKTOP SENIOR PORTAL AND LINKS */
-          .navbar-links,
           .senior-button {
+            display: inline-flex !important;
+            position: static !important;
+            grid-column: 3 !important;
+            grid-row: 1 !important;
+            justify-self: end !important;
+            align-items: center !important;
+            gap: 4px !important;
+            padding: 0 18px 0 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            color: #080a0d !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            transform: none !important;
+          }
+
+          .navbar-links {
             display: none !important;
           }
 
-          /* MOBILE DROPDOWN */
           .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            padding: 12px 24px 24px;
-            background: #f7f5ef;
-            border-top: 1px solid rgba(8, 10, 13, 0.08);
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 12px 24px 24px !important;
+            background: #f7f5ef !important;
+            border-top: 1px solid rgba(8, 10, 13, 0.08) !important;
           }
 
           .mobile-menu a {
@@ -247,9 +250,25 @@ export default function Navbar() {
             font-size: 15px;
             text-decoration: none;
           }
+        }
 
-          .mobile-senior {
-            font-weight: 500;
+        @media (max-width: 450px) {
+          .navbar-inner {
+            grid-template-columns: 65px 1fr auto !important;
+            column-gap: 6px !important;
+          }
+
+          .brand-top {
+            font-size: 7px !important;
+          }
+
+          .brand-bottom {
+            font-size: 17px !important;
+          }
+
+          .senior-button {
+            padding-right: 12px !important;
+            font-size: 10px !important;
           }
         }
       `}</style>
