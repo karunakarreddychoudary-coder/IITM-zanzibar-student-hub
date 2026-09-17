@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -17,10 +18,25 @@ export default function Navbar() {
   ];
 
   return (
-    <Link href="/" className="brand">
-  <span className="brand-top">IIT MADRAS</span>
-  <span className="brand-bottom">ZANZIBAR</span>
-</Link>
+    <header className="navbar">
+      <div className="navbar-inner">
+
+        {/* Mobile menu button on LEFT */}
+        <button
+          className="mobile-menu-button"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+
+        {/* Logo */}
+        <Link href="/" className="navbar-brand">
+          <span>IIT MADRAS</span>
+          <strong>ZANZIBAR</strong>
+        </Link>
+
+        {/* Desktop navigation */}
         <nav className="navbar-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
@@ -29,20 +45,14 @@ export default function Navbar() {
           ))}
         </nav>
 
+        {/* Senior portal */}
         <Link href="/login" className="senior-button">
           <span>Senior Portal</span>
           <ArrowUpRight size={16} />
         </Link>
-
-        <button
-          className="mobile-menu-button"
-          onClick={() => setOpen(!open)}
-          aria-label="Open menu"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
       </div>
 
+      {/* Mobile navigation */}
       {open && (
         <div className="mobile-menu">
           {links.map((link) => (
@@ -88,6 +98,7 @@ export default function Navbar() {
           flex-direction: column;
           gap: 5px;
           color: #080a0d;
+          text-decoration: none;
         }
 
         .navbar-brand span {
@@ -124,23 +135,14 @@ export default function Navbar() {
           display: inline-flex;
           align-items: center;
           gap: 9px;
-
           padding: 14px 20px;
-
           border: 1px solid #080a0d;
-
           background: #080a0d;
           color: #ffffff;
-
           border-radius: 999px;
-
           font-size: 13px;
           font-weight: 500;
-
-          transition:
-            background 0.2s ease,
-            color 0.2s ease,
-            transform 0.2s ease;
+          transition: all 0.2s ease;
         }
 
         .senior-button:hover {
@@ -154,6 +156,7 @@ export default function Navbar() {
           background: transparent;
           border: 0;
           color: #080a0d;
+          padding: 4px;
         }
 
         .mobile-menu {
@@ -175,15 +178,22 @@ export default function Navbar() {
           .navbar-inner {
             height: 82px;
             padding: 0 22px;
+            justify-content: flex-start;
+            gap: 18px;
+          }
+
+          .mobile-menu-button {
+            display: block;
+            order: 1;
+          }
+
+          .navbar-brand {
+            order: 2;
           }
 
           .navbar-links,
           .senior-button {
             display: none;
-          }
-
-          .mobile-menu-button {
-            display: block;
           }
 
           .mobile-menu {
