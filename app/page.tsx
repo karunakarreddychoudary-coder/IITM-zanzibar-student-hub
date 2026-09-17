@@ -98,19 +98,20 @@ export default function Home() {
               IIT MADRAS ZANZIBAR · STUDENT HUB · 2026
             </p>
 
-            <h1>
-              YOUR FIRST
-              <br />
-              YEAR STARTS
-              <br />
-              <span>HERE.</span>
-            </h1>
+            
+<h1>
+  YOUR JOURNEY
+  <br />
+  STARTS
+  <br />
+  <span>HERE.</span>
+</h1>
 
-            <p className="hero-description">
-              Everything you need for your first year at IIT Madras
-              Zanzibar — academics, resources, student life and
-              practical guides, brought together in one place.
-            </p>
+<p className="hero-description">
+  Your student hub for life at IIT Madras Zanzibar —
+  academics, resources, student life and practical guides,
+  all brought together in one place.
+</p>
 
             <div className="hero-buttons">
               <a href="/academics" className="hero-primary">
