@@ -21,7 +21,6 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar-inner">
 
-        {/* MOBILE MENU — LEFT */}
         <button
           className="mobile-menu-button"
           onClick={() => setOpen(!open)}
@@ -30,13 +29,11 @@ export default function Navbar() {
           {open ? <X size={25} /> : <Menu size={25} />}
         </button>
 
-        {/* LOGO */}
         <Link href="/" className="navbar-brand">
-          <span>IIT MADRAS</span>
-          <strong>ZANZIBAR</strong>
+          <span className="brand-top">IIT MADRAS</span>
+          <strong className="brand-bottom">ZANZIBAR</strong>
         </Link>
 
-        {/* DESKTOP LINKS */}
         <nav className="navbar-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
@@ -45,20 +42,12 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* DESKTOP SENIOR PORTAL */}
         <Link href="/login" className="senior-button">
-          Senior Portal
+          <span>Senior Portal</span>
           <ArrowUpRight size={16} />
-        </Link>
-
-        {/* MOBILE SENIOR PORTAL — LEFT FROM EDGE */}
-        <Link href="/login" className="mobile-senior-button">
-          Senior Portal
-          <ArrowUpRight size={15} />
         </Link>
       </div>
 
-      {/* MOBILE DROPDOWN */}
       {open && (
         <div className="mobile-menu">
           {links.map((link) => (
@@ -73,6 +62,7 @@ export default function Navbar() {
 
           <Link
             href="/login"
+            className="mobile-senior"
             onClick={() => setOpen(false)}
           >
             Senior Portal
@@ -91,12 +81,12 @@ export default function Navbar() {
         }
 
         .navbar-inner {
-          position: relative;
-          min-height: 104px;
+          height: 104px;
           padding: 0 6vw;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          position: relative;
         }
 
         .navbar-brand {
@@ -107,16 +97,19 @@ export default function Navbar() {
           color: #080a0d;
           text-decoration: none;
           white-space: nowrap;
+          flex-shrink: 0;
         }
 
-        .navbar-brand span {
+        .brand-top {
+          display: block;
           font-size: 10px;
           line-height: 1;
           letter-spacing: 0.28em;
           color: rgba(8, 10, 13, 0.55);
         }
 
-        .navbar-brand strong {
+        .brand-bottom {
+          display: block;
           font-size: 20px;
           line-height: 1;
           font-weight: 500;
@@ -151,8 +144,10 @@ export default function Navbar() {
           white-space: nowrap;
         }
 
-        .mobile-menu-button,
-        .mobile-senior-button,
+        .mobile-menu-button {
+          display: none;
+        }
+
         .mobile-menu {
           display: none;
         }
@@ -170,76 +165,86 @@ export default function Navbar() {
 
         @media (max-width: 800px) {
           .navbar-inner {
-            height: 132px;
-            padding: 0;
-            display: block;
+            height: 132px !important;
+            padding: 0 !important;
+            display: grid !important;
+            grid-template-columns: 76px 1fr auto !important;
+            align-items: center !important;
+            column-gap: 10px !important;
           }
 
-          /* MENU FIXED LEFT */
           .mobile-menu-button {
-            display: flex;
-            position: absolute;
-            left: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            align-items: center;
-            justify-content: center;
-            border: 0;
-            padding: 0;
-            background: transparent;
-            color: #080a0d;
-            z-index: 10;
+            display: flex !important;
+            position: static !important;
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            justify-self: center !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            color: #080a0d !important;
+            transform: none !important;
           }
 
-          /* LOGO */
           .navbar-brand {
-            position: absolute;
-            left: 105px;
-            top: 50%;
-            transform: translateY(-50%);
-            gap: 12px;
+            position: static !important;
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            justify-self: start !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin: 0 !important;
+            transform: none !important;
           }
 
-          .navbar-brand span {
-            font-size: 8px;
-            letter-spacing: 0.15em;
+          .brand-top {
+            font-size: 8px !important;
+            letter-spacing: 0.15em !important;
           }
 
-          .navbar-brand strong {
-            font-size: 20px;
+          .brand-bottom {
+            font-size: 20px !important;
           }
 
-          /* HIDE DESKTOP ITEMS */
-          .navbar-links,
           .senior-button {
-            display: none;
+  display: inline-flex !important;
+  position: absolute !important;
+
+  left: 62% !important;
+  right: auto !important;
+  top: 50% !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #080a0d !important;
+
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  white-space: nowrap !important;
+  z-index: 20 !important;
+}
+          .navbar-links {
+            display: none !important;
           }
 
-          /* SENIOR PORTAL — FULLY VISIBLE */
-          .mobile-senior-button {
-            display: inline-flex;
-            position: absolute;
-            right: 58px;
-            top: 50%;
-            transform: translateY(-50%);
-            align-items: center;
-            gap: 4px;
-            padding: 0;
-            color: #080a0d;
-            font-size: 11px;
-            font-weight: 400;
-            white-space: nowrap;
-            text-decoration: none;
-            z-index: 10;
-          }
-
-          /* MOBILE DROPDOWN */
           .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            padding: 12px 24px 24px;
-            background: #f7f5ef;
-            border-top: 1px solid rgba(8, 10, 13, 0.08);
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 12px 24px 24px !important;
+            background: #f7f5ef !important;
+            border-top: 1px solid rgba(8, 10, 13, 0.08) !important;
           }
 
           .mobile-menu a {
@@ -255,26 +260,22 @@ export default function Navbar() {
         }
 
         @media (max-width: 450px) {
-          .mobile-menu-button {
-            left: 18px;
+          .navbar-inner {
+            grid-template-columns: 65px 1fr auto !important;
+            column-gap: 6px !important;
           }
 
-          .navbar-brand {
-            left: 88px;
+          .brand-top {
+            font-size: 7px !important;
           }
 
-          .navbar-brand span {
-            font-size: 7px;
-            letter-spacing: 0.1em;
+          .brand-bottom {
+            font-size: 17px !important;
           }
 
-          .navbar-brand strong {
-            font-size: 17px;
-          }
-
-          .mobile-senior-button {
-            right: 48px;
-            font-size: 10px;
+          .senior-button {
+            padding-right: 12px !important;
+            font-size: 10px !important;
           }
         }
       `}</style>
